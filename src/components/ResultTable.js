@@ -6,11 +6,11 @@ function ResultTable() {
         <div className='flex p-2'>
             <div className='p-1 mr-5'>
                 <input className='mr-1' type="radio" id="delivery_cost" name="result_table" value="1" />
-                <label className='' for="delivery_cost">Delievery Cost</label>
+                <label className='' htmlFor="delivery_cost">Delievery Cost</label>
             </div>
             <div className='p-1'>
                 <input className='mr-1' type="radio" id="possible_routes" name="result_table" value="2" />
-                <label for="possible_routes">Number of possible delivery routes</label>
+                <label htmlFor="possible_routes">Number of possible delivery routes</label>
             </div>
         </div>
         <div className='p-2'>
