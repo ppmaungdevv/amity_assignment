@@ -1,54 +1,68 @@
-import { av_routes, cities } from './providedData'
+import { getValue } from '@testing-library/user-event/dist/utils'
+import { av_routes, cities, showGraph, nodes, t_edge, edges, sample_edges } from './providedData'
 
-export const calculate = () => {
-    // accept two input params start && end
-    const start = 'E', end = 'B';
-    const city_pairs = Object.keys(av_routes)
-    const start_with_input_start = {}, end_with_input_end = {}, final_result = {}
+// console.log(t_edge)
 
-    if (Object.keys(av_routes).includes(start + end)) {
-        final_result[start + end] = av_routes[start + end]
-    }
-
-    for (const key1 in av_routes) {
-        if (key1.startsWith(start)) {
-            start_with_input_start[key1] = av_routes[key1]
-        }
-        if (key1.endsWith(end)) {
-            end_with_input_end[key1] = av_routes[key1]
-        }
-    }
-    // consider the longer one
-    let is_start_longer, longer_one ;
-    if (Object.keys(start_with_input_start).length > Object.keys(end_with_input_end).length) {
-        is_start_longer = true
-        longer_one = start_with_input_start
-    } else {
-        is_start_longer = false
-        longer_one = end_with_input_end
-    }
-    let combined_key
-    for (const long in longer_one) {
-        if (is_start_longer) {
-            // start is longer so take chartAt(length - 1) of long && charAt(0) of short
-            // and sum the end_with_input_end[short] with longer_one[long]
-            for (const short in end_with_input_end) {
-                if (long.charAt(long.length - 1) === short.charAt(0)) {
-                    combined_key = long.charAt(0) + long.charAt(long.length - 1) + short.charAt(short.length - 1)
-                    final_result[combined_key] = longer_one[long] + end_with_input_end[short]
-                }
-            }
-        } else {
-            // end is longer so take chartAt(0) of long && charAt(length - 1) of short
-            // and sum the start_with_input_start[short] with longer_one[long]
-            for (const short in start_with_input_start) {
-                if (short.charAt(long.length - 1) === long.charAt(0)) {
-                    combined_key = short.charAt(0) + short.charAt(short.length - 1) + long.charAt(short.length - 1)
-                    final_result[combined_key] = longer_one[long] + start_with_input_start[short]
-                }
-            }
-        }
-    }
-    console.log(final_result)
+const get_possible_routes = async () => {
+    const start = 'E', end = 'E'
+    const visited = new Set()
+    const queue = [start]
+    let count = 0
+    const final_routes = []
     
+    while (queue.length > 0) {
+        const from = queue.shift()
+        
+        const dests = t_edge.get(from)
+        
+        for (const {dest} of dests) {
+
+            if (dest === end) {
+                count++
+                console.log('here', start, from, dest, count)
+            }
+            if (!visited.has(dest)) {
+                visited.add(dest)
+                queue.push(dest)
+            }
+        }
+    }
+    console.log(count)
 }
+
+const dfs = (start, end, visited = new Set(), count = 0) => {
+    console.log(start)
+    visited.add(start)
+    const dests = t_edge.get(start)
+    // console.log(dests)
+    for (const {dest} of dests) {
+        if (dest === end) {
+            count++
+            console.log('here', start, end, visited, count)
+            return
+        }
+        if (!visited.has(dest)) {
+            // console.log('re', start, end)
+            dfs(dest, end, visited, count)
+        }
+    }
+}
+
+export const calculate_cost = (route) => {
+    let paired = '', total = 0, route_not_exist = false
+    for (let index = 0; index < route.length-1; index++) {
+        paired = route[index]+route[index+1]
+        if (!edges[paired]) {
+            route_not_exist = true
+            total = 0
+            continue
+        }
+        total += edges[paired]
+    }
+    return {route: route.join('-'), total, route_not_exist}
+} 
+
+// dfs('E', 'D')
+// calculate_cost(['A', 'B', 'E'])
+// calculate_cost(['A', 'D', 'F'])
+// get_possible_routes()

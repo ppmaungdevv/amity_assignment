@@ -1,18 +1,10 @@
 import React from 'react'
 
-function ResultTable() {
+function ResultTable(props) {
+    const {table, data, cities } = props
+    const {total, route, route_not_exist} = data
   return (
-    <div className='h-auto bg-white rounded'>
-        <div className='flex p-2'>
-            <div className='p-1 mr-5'>
-                <input className='mr-1' type="radio" id="delivery_cost" name="result_table" value="1" />
-                <label className='' htmlFor="delivery_cost">Delievery Cost</label>
-            </div>
-            <div className='p-1'>
-                <input className='mr-1' type="radio" id="possible_routes" name="result_table" value="2" />
-                <label htmlFor="possible_routes">Number of possible delivery routes</label>
-            </div>
-        </div>
+    // <div>
         <div className='p-2'>
             <table className='min-w-full border-t border-b border-gray-600 text-left'>
                 <thead className=''>
@@ -21,67 +13,27 @@ function ResultTable() {
                         <th className='p-2 w-1/3 border border-gray-600'>Output</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td className='p-2 w-2/3 border border-gray-600'>January</td>
-                        <td className='p-2 w-1/3 border border-gray-600'>$100</td>
-                    </tr>
-                    <tr>
-                        <td className='p-2 w-2/3 border border-gray-600'>January</td>
-                        <td className='p-2 w-1/3 border border-gray-600'>$100</td>
-                    </tr>
-                    <tr>
-                        <td className='p-2 w-2/3 border border-gray-600'>January</td>
-                        <td className='p-2 w-1/3 border border-gray-600'>$100</td>
-                    </tr>
-                    <tr>
-                        <td className='p-2 w-2/3 border border-gray-600'>January</td>
-                        <td className='p-2 w-1/3 border border-gray-600'>$100</td>
-                    </tr>
-                    <tr>
-                        <td className='p-2 w-2/3 border border-gray-600'>January</td>
-                        <td className='p-2 w-1/3 border border-gray-600'>$100</td>
-                    </tr>
-                    <tr>
-                        <td className='p-2 w-2/3 border border-gray-600'>January</td>
-                        <td className='p-2 w-1/3 border border-gray-600'>$100</td>
-                    </tr>
-                    <tr>
-                        <td className='p-2 w-2/3 border border-gray-600'>January</td>
-                        <td className='p-2 w-1/3 border border-gray-600'>$100</td>
-                    </tr>
-                    <tr>
-                        <td className='p-2 w-2/3 border border-gray-600'>January</td>
-                        <td className='p-2 w-1/3 border border-gray-600'>$100</td>
-                    </tr>
-                    <tr>
-                        <td className='p-2 w-2/3 border border-gray-600'>January</td>
-                        <td className='p-2 w-1/3 border border-gray-600'>$100</td>
-                    </tr>
-                    <tr>
-                        <td className='p-2 w-2/3 border border-gray-600'>January</td>
-                        <td className='p-2 w-1/3 border border-gray-600'>$100</td>
-                    </tr>
-                    <tr>
-                        <td className='p-2 w-2/3 border border-gray-600'>January</td>
-                        <td className='p-2 w-1/3 border border-gray-600'>$100</td>
-                    </tr>
-                    <tr>
-                        <td className='p-2 w-2/3 border border-gray-600'>January</td>
-                        <td className='p-2 w-1/3 border border-gray-600'>$100</td>
-                    </tr>
-                    <tr>
-                        <td className='p-2 w-2/3 border border-gray-600'>January</td>
-                        <td className='p-2 w-1/3 border border-gray-600'>$100</td>
-                    </tr>
-                    <tr>
-                        <td className='p-2 w-2/3 border border-gray-600'>January</td>
-                        <td className='p-2 w-1/3 border border-gray-600'>$100</td>
-                    </tr>
-                </tbody>
+                {
+                    JSON.stringify(data) !== '{}' 
+                    ? 
+                        <tbody>
+                            <tr>
+                                <td className='p-2 w-2/3 border border-gray-600'>the delivery cost for route {route}</td>
+                                <td className='p-2 w-1/3 border border-gray-600'>
+                                    {
+                                        route_not_exist && total === 0 ?
+                                        'No Such Route' :
+                                        total
+                                    }
+                                </td>
+                            </tr>
+                        </tbody>
+                    :
+                        <tbody></tbody>
+                }
             </table>
         </div>
-    </div>
+    // </div>
   )
 }
 
