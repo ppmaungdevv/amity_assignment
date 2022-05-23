@@ -1,15 +1,18 @@
 import './App.css';
 import EntryForm from './components/EntryForm';
 import ResultTable from './components/ResultTable';
-import { calculate_cost } from './helpers/calculate';
-import { av_routes, cities } from './helpers/providedData'
+import { calculate_cost, calculate_routes } from './helpers/calculate';
+import { cities } from './helpers/providedData'
 import React, { useState } from 'react';
 
 function App() {
   const [data, set_data] = useState({})
   const [table, set_table] = useState(1)
-  const test = (cities) => {
+  const calculate_delivery_cost = (cities) => {
     set_data(calculate_cost(cities))
+  }
+  const calculate_possible_routes = (from, to) => {
+    set_data(calculate_routes(from, to))
   }
   const toggle_table = (event) => {
     set_table(event.target.value)
@@ -29,7 +32,7 @@ function App() {
           </div>
       </div>
       <div className='h-auto bg-white rounded'>
-        <EntryForm input_type={table} cities={cities} calculate_cost={test} />
+        <EntryForm input_type={table} cities={cities} calculate_cost={calculate_delivery_cost} calculate_routes={calculate_possible_routes} />
         <ResultTable table={table} data={data} cities={cities} />
       </div>
     </div>
